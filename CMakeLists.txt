@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+project(simnet)
+list(APPEND CUDA_NVCC_FLAGS "-std=c++11")
+SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
+
+find_package(OpenCV REQUIRED)
+find_package(CUDA REQUIRED)
+
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_LIST_DIR}/TRT/include) 
+include_directories(C:/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v10.0/include)
+file(GLOB INC ${CMAKE_CURRENT_LIST_DIR}/include/*.hpp)
+file(GLOB SRC ${CMAKE_CURRENT_LIST_DIR}/src/*.cpp)
+
+set(TRT_LIB ${CMAKE_CURRENT_LIST_DIR}/TRT/lib/*.lib)
+set(CUDA_LIBS C:/Program\ Files/NVIDIA\ GPU\ Computing\ Toolkit/CUDA/v10.0/lib/x64/*.lib)
+message(STATUS "OpenCV library status:")
+message(STATUS "    version: ${OpenCV_VERSION}")
+message(STATUS "    libraries: ${OpenCV_LIBS}")
+message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "    cuda_lib: ${CUDA_LIBS}")
+
+add_executable(simnet ${INC} ${SRC})
+target_link_libraries(simnet ${OpenCV_LIBS} ${TRT_LIB} ${CUDA_LIBS})
+set_property(TARGET simnet PROPERTY CXX_STANDARD 11)
+list(APPEND CUDA_NVCC_FLAGS "-std=c++11")
+SET(CUDA_PROPAGATE_HOST_FLAGS OFF)
